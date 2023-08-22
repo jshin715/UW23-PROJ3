@@ -1,6 +1,6 @@
 import os
 import psycopg2
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 app = Flask(__name__)
 def get_db_connection():
     conn = psycopg2.connect(database="COVID19",
@@ -10,12 +10,16 @@ def get_db_connection():
     return conn
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/data')
+def data():
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('''SELECT * FROM "covtable";''')
     data = cur.fetchall()
     cur.close()
     conn.close()
-    return render_template('index.html', data=data)
+    return jsonify(data=data)
 if __name__ == "__main__":
     app.run(debug=True)
