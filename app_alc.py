@@ -4,7 +4,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
-
+import plotly.graph_objs as go
 from flask import Flask, jsonify
 
 database="COVID19",
@@ -37,7 +37,8 @@ def welcome():
     """List all available api routes."""
     return (
         f"Available Routes:<br/>"
-        f"/api/v1.0/covtable"
+        f"/api/v1.0/covtable<br/>"
+        f"/api/v1.0/timeline"
     )
 @app.route("/api/v1.0/covtable")
 def table():
@@ -106,6 +107,7 @@ def table():
 if __name__ == '__main__':
     app.run(debug=True)
 
+
 # all_passengers = []
 #     for name, age, sex in results:
 #         passenger_dict = {}
@@ -115,3 +117,4 @@ if __name__ == '__main__':
 #         all_passengers.append(passenger_dict)
 
 #     return jsonify(all_passengers)
+print(data)

@@ -1,12 +1,16 @@
-url = '/data'
-d3.json(url).then(function(response) {
-    console.log(response);
-})
+const url = "api/v1.0/covtable";
+
+// Promise Pending
+const dataPromise = d3.json(url);
+console.log("Data Promise: ", dataPromise);
+
+// Fetch the JSON data and console log it
+d3.json(url).then(function(data) {
+  console.log(data);
+});
 
 
-// // Check to see if you get a 200 or 404
-// const myRequest = new Request(url);
-
-// fetch(myRequest).then((response) => {
-//   console.log(response.status); //returns 200
+// url = '/data'
+// d3.json(url).then(function(response) {
+//     console.log(response);
 // })
