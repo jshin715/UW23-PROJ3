@@ -10,14 +10,16 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <div id="timeline-div"></div>
+    <h2>Covid Stats</h2>
+    <p>You have the option to select between average per 100k and total hospital admissions</p>
+    <select id="selDataset">
+        <option value="total_adm_all_covid_confirmed_past_7days">Total Hospital Admissions Confirmed </option>
+        <option value="total_adm_all_covid_confirmed_past_7days_per_100k">Total Hospital Admissions Confirmed Per 100k</option>
+    </select>
+    <div id="pie"></div>
+
     <script src="static/js/logic.js"></script>
     <script>
-        fetch('/api/v1.0/timeline')
-            .then(response => response.json())
-            .then(data => {
-                Plotly.newPlot('timeline-div', data.data, data.layout);
-            });
     </script>
 </body>
 </html>
