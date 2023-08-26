@@ -17,10 +17,19 @@ d3.json(url2).then(function(data) {
     col_one[data[i].state]=data[i].total_adm_all_covid_confirmed_past_7days
     col_two[data[i].state]=data[i].total_adm_all_covid_confirmed_past_7days_per_100k
   }
+  let pie_data = [];
+
+  pie_data = col_one;
+  const sliceLimit = 10; // Change this to your desired slice limit
+      let sortedData = Object.entries(pie_data)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, sliceLimit);
+      let labels = sortedData.map(entry => entry[0]);
+      let values = sortedData.map(entry => entry[1]);
 
     let data1 = [{
-      values: Object.values(col_one),
-      labels: Object.keys(col_one),
+      values: values,
+      labels: labels,
       type: "pie"
     }];
   
@@ -43,8 +52,15 @@ d3.json(url2).then(function(data) {
       else {
         pie_data = col_two;
       }
+      const sliceLimit = 10; // Change this to your desired slice limit
+      let sortedData = Object.entries(pie_data)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, sliceLimit);
+      let labels = sortedData.map(entry => entry[0]);
+      let values = sortedData.map(entry => entry[1]);
 
-      Plotly.restyle("pie", "values", [Object.values(pie_data)])
+      Plotly.restyle('pie', 'labels', [labels]);
+      Plotly.restyle('pie', 'values', [values]);
     });
 
 
