@@ -66,14 +66,14 @@ d3.json(url2).then(function(data) {
 
 });
 
-const url_2 = "/api/v1.0/covtable_bargraph";
+const url_3 = "/api/v1.0/covtable_bargraph";
 
 // Fetch the JSON data and create bar graph
-d3.json(url_2).then(function(data) {
+d3.json(url_3).then(function(data2) {
   // Extract data for the two columns
-  const states = data.map(entry => entry.state);
-  const avgInpatientBedsUsed = data.map(entry => entry.avg_percent_inpatient_beds_used_confirmed_covid);
-  const avgStaffICUBeds = data.map(entry => entry.avg_percent_staff_icu_beds_covid);
+  const states = data2.map(entry => entry.state);
+  const avgInpatientBeds = data2.map(entry => entry.avg_percent_inpatient_beds_used_confirmed_covid);
+  const avgStaffICUBeds = data2.map(entry => entry.avg_percent_staff_icu_beds_covid);
 
   // Create bar graph for average inpatient beds used
   const avgInpatientBedsTrace = {
@@ -90,12 +90,21 @@ d3.json(url_2).then(function(data) {
     type: 'bar',
     name: 'Avg Staff ICU Beds (%)'
   };
-
+// Create data array
+let data2 = [avgInpatientBedsTrace , avgStaffICUBedsTrace ];
   const layout = {
     title: 'Average Bed Usage Data by State',
-    barmode: 'group'
+    barmode: 'group',
+    // Include margins in the layout so the x-tick labels display correctly
+    margin: {
+    l: 50,
+    r: 50,
+    b: 200,
+    t: 50,
+    pad: 4
+    }
   };
 
   const graphData = [avgInpatientBedsTrace, avgStaffICUBedsTrace];
-  Plotly.newPlot('bar', graphData, layout);
+  Plotly.newPlot('plot', graphData, layout);
 });
