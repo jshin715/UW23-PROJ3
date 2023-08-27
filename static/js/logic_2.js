@@ -65,46 +65,64 @@ d3.json(url2).then(function(data) {
 
 
 });
-
-const url_3 = "/api/v1.0/covtable_bargraph";
+const url3 = "api/v1.0/covtable_bargraph";
 
 // Fetch the JSON data and create bar graph
-d3.json(url_3).then(function(data2) {
-  // Extract data for the two columns
-  const states = data2.map(entry => entry.state);
-  const avgInpatientBeds = data2.map(entry => entry.avg_percent_inpatient_beds_used_confirmed_covid);
-  const avgStaffICUBeds = data2.map(entry => entry.avg_percent_staff_icu_beds_covid);
+d3.json(url3).then(function(data) {
+   console.log(data);
+  const col_one_2 = {};
+  const col_two_2 = {};
 
-  // Create bar graph for average inpatient beds used
-  const avgInpatientBedsTrace = {
-    x: states,
-    y: avgInpatientBeds,
-    type: 'bar',
-    name: 'Avg Inpatient Beds Used (%)'
-  };
+  for (let i = 0; i < data.length; i++) {
+    col_one_2[data[i].state] = data[i].avg_percent_inpatient_beds_used_confirmed_covid;
+    col_two_2[data[i].state] = data[i].avg_percent_staff_icu_beds_covid;
+  }
 
-  // Create bar graph for average staff ICU beds
-  const avgStaffICUBedsTrace = {
-    x: states,
-    y: avgStaffICUBeds,
-    type: 'bar',
-    name: 'Avg Staff ICU Beds (%)'
-  };
-// Create data array
-let data2 = [avgInpatientBedsTrace , avgStaffICUBedsTrace ];
-  const layout = {
+  let bar_data = col_one_2;
+
+  // Initial bar graph setup
+  let data2 = [{
+    x: Object.keys(bar_data), // States on the x-axis
+    y: Object.values(bar_data), // Data values on the y-axis
+    type: "bar"
+  }];
+
+  let layout = {
     title: 'Average Bed Usage Data by State',
-    barmode: 'group',
-    // Include margins in the layout so the x-tick labels display correctly
-    margin: {
-    l: 50,
-    r: 50,
-    b: 200,
-    t: 50,
-    pad: 4
-    }
+    xaxis: {
+      title: 'States'
+    },
+    yaxis: {
+      title: 'Value'
+    },
+    height: 600,
+    width: 1200
   };
 
-  const graphData = [avgInpatientBedsTrace, avgStaffICUBedsTrace];
-  Plotly.newPlot('plot', graphData, layout);
+  Plotly.newPlot("bar", data2, layout);
+
+  d3.selectAll("#selDataset_2").on("change", function() {
+    let dropdownMenu_2 = d3.select("#selDataset_2");
+    let dataset_2 = dropdownMenu_2.property("value");
+
+    if (dataset_2 === 'avg_percent_inpatient_beds_used_confirmed_covid') {
+      bar_data = col_one_2;
+    } else {
+      bar_data = col_two_2;
+    }
+
+    // Update bar graph data
+    let updatedData = [{
+      x: Object.keys(bar_data),
+      y: Object.values(bar_data),
+      type: "bar"
+    }];
+
+    Plotly.restyle("bar", updatedData, layout);
+  
+
+  // Update the restyled plot's values
+  function updatePlotly(newdata) {
+    Plotly.restyle("pie", "values", [newdata]);
+  });
 });

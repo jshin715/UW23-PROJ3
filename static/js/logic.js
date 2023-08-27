@@ -70,8 +70,8 @@ const url3 = "api/v1.0/covtable_bargraph";
 // Fetch the JSON data and create bar graph
 d3.json(url3).then(function(data) {
    console.log(data);
-  const col_one_2 = {};
-  const col_two_2 = {};
+  col_one_2 = {};
+  col_two_2 = {};
 
   for (let i = 0; i < data.length; i++) {
     col_one_2[data[i].state] = data[i].avg_percent_inpatient_beds_used_confirmed_covid;
@@ -103,12 +103,18 @@ d3.json(url3).then(function(data) {
 
   d3.selectAll("#selDataset_2").on("change", function() {
     let dropdownMenu_2 = d3.select("#selDataset_2");
-    let dataset_2 = dropdownMenu_2.property("value_2");
+    let dataset_2 = dropdownMenu_2.property("value");
 
-    if (dataset_2 === 'avg_percent_inpatient_beds_used_confirmed_covid') {
+    bar_data = {}
+    if (dataset_2 == 'avg_percent_inpatient_beds_used_confirmed_covid') {
       bar_data = col_one_2;
     } else {
       bar_data = col_two_2;
+    }
+  
+    for (let i = 0; i < data.length; i++) {
+      col_one_2[data[i].state] = data[i].avg_percent_inpatient_beds_used_confirmed_covid;
+      col_two_2[data[i].state] = data[i].avg_percent_staff_icu_beds_covid;
     }
 
     // Update bar graph data
@@ -121,3 +127,4 @@ d3.json(url3).then(function(data) {
     Plotly.newPlot("bar", updatedData, layout);
   });
 });
+
