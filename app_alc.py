@@ -136,34 +136,36 @@ def statetable():
     return jsonify(all_covtablebystate)
 
 
+    ## bar graph 
+@app.route("/api/v1.0/covtable_bargraph")
+def bar_table():
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    """Return a list of passenger data including the name, age, and sex of each passenger"""
+    # Query all passengers
+    sel = [Covtable.state, 
+        func.avg(Covtable.avg_percent_inpatient_beds_used_confirmed_covid), 
+        func.avg(Covtable.avg_percent_staff_icu_beds_covid)] 
+    results = session.query(*sel).\
+        filter(Covtable.state != "Northern Mariana Islands").\
+        group_by(Covtable.state).\
+        order_by(Covtable.state).all()
+    results
+    session.close()
     
-    
+    # Create a dictionary from the row data and append to a list of all_passengers
+    all_covtable_bargraph = []
+    for state, avg_percent_inpatient_beds_used_confirmed_covid, avg_percent_staff_icu_beds_covid in results :      
+        # print(type(total_adm_all_covid_confirmed_past_7days))
+        covtable_bargraph_entry2 = {
+            "state": state,
+            "avg_percent_inpatient_beds_used_confirmed_covid": float(avg_percent_inpatient_beds_used_confirmed_covid),
+            "avg_percent_staff_icu_beds_covid":float(avg_percent_staff_icu_beds_covid)
+        }
+        all_covtable_bargraph.append(covtable_bargraph_entry2)
 
-
-
-# database_path = "../Resources/icecreamstore.sqlite"
-# Path(database_path).touch()
-
-# conn = sqlite3.connect(database_path)
-# c = conn.cursor()
-
-# c.execute('''CREATE TABLE icecreamstore ( ID int, Flavors text, Quantities int, Price float)''')
-
-# csv_icecream = pd.read_csv("../Resources/icecreamstore.csv")
-# csv_icecream.to_sql("icecreamstore", conn, if_exists='append', index=False)
-
-# conn.close()
+    return jsonify(all_covtable_bargraph)
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-# all_passengers = []
-#     for name, age, sex in results:
-#         passenger_dict = {}
-#         passenger_dict["name"] = name
-#         passenger_dict["age"] = age
-#         passenger_dict["sex"] = sex
-#         all_passengers.append(passenger_dict)
-
-#     return jsonify(all_passengers)
