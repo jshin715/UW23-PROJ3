@@ -8,6 +8,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- Plotly library -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Vis library -->
     <script type="text/javascript" src="https://visjs.github.io/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>
     <script type="text/javascript" src="timeline.js"></script>
     <!-- External CSS file for styling -->
@@ -21,9 +22,10 @@
     <main>
         <section id="intro">
             <h2>Welcome to the Dashboard</h2>
-            <p>Welcome to COVID-19 Hospitalization Metrics dashboard! We have data on various hospitalization from May 2023
-                from August 2023. The current re infection of COVID19 is concerning. We hope this visualization helps you understand its severity.</p>
-            <p>Select the desired data category:</p>
+            <p>Welcome to COVID-19 Hospitalization Metrics dashboard! We have data on hospitalization admission data from May 2023
+                from August 2023. The current resurgence of COVID19 is concerning. We hope this visualization helps you understand its severity.</p>
+                <h2>Total Hospital Admissions</h2>
+                <p>Select the desired data category:</p>
             <select id="selDataset">
                 <option value="total_adm_all_covid_confirmed_past_7days">Total Hospital Admissions Confirmed</option>
                 <option value="total_adm_all_covid_confirmed_past_7days_per_100k">Total Hospital Admissions Confirmed Per 100k</option>
@@ -32,8 +34,8 @@
         </section>
         
         <section id="inpatient-icu">
-            <h2>Inpatient vs. ICU Beds</h2>
-            <p>Select between inpatient and ICU beds:</p>
+            <h2>Inpatient vs. ICU Bed Occupancy Percentages</h2>
+            <p>Select between Inpatient and ICU:</p>
             <select id="selDataset_2">
                 <option value="avg_percent_inpatient_beds_used_confirmed_covid">Inpatient Beds</option>
                 <option value="avg_percent_staff_icu_beds_covid">ICU Beds</option>
@@ -42,7 +44,7 @@
         </section>
         
         <section id="timeline">
-            <h2>Timeline of Total Admissions</h2>
+            <h2>Timeline of Total Covid Hospitalization Admissions</h2>
             <div id="visualization"></div>
         </section>
     </main>

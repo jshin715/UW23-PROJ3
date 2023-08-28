@@ -5,9 +5,10 @@ d3.json(url).then(function(data) {
   // console.log(data);
 });
 
+// pie graph for Total Hospital Admissions by State
 const url2 = "api/v1.0/covtablebystate";
 
-// Fetch the JSON data and console log it
+// Fetch the JSON data and plot a pie chart
 d3.json(url2).then(function(data) {
   
   col_one = {}
@@ -20,7 +21,7 @@ d3.json(url2).then(function(data) {
   let pie_data = [];
 
   pie_data = col_one;
-  const sliceLimit = 10; // Change this to your desired slice limit
+  const sliceLimit = 10; // desired slice limit
       let sortedData = Object.entries(pie_data)
       .sort((a, b) => b[1] - a[1])
       .slice(0, sliceLimit);
@@ -54,7 +55,7 @@ d3.json(url2).then(function(data) {
       else {
         pie_data = col_two;
       }
-      const sliceLimit = 10; // Change this to your desired slice limit
+      const sliceLimit = 10; // desired slice limit
       let sortedData = Object.entries(pie_data)
       .sort((a, b) => b[1] - a[1])
       .slice(0, sliceLimit);
@@ -67,6 +68,7 @@ d3.json(url2).then(function(data) {
 
 
 });
+//Bar graph for Avg Bed Occupancy Percentages
 const url3 = "api/v1.0/covtable_bargraph";
 
 // Fetch the JSON data and create bar graph
@@ -97,7 +99,7 @@ d3.json(url3).then(function(data) {
       automargin: true
     },
     yaxis: {
-      title: 'Average Bed Usage'
+      title: 'Average Bed Usage (Percentage)'
     },
     height: 600,
     width: 1200,
@@ -134,6 +136,7 @@ d3.json(url3).then(function(data) {
   });
 });
 
+//Create timeline of total Covid Hospitalization Admissions with Zoom and Textbox interaction
 const url4 = "api/v1.0/covtable_timeline";
 
 // Fetch the JSON data and console log it
@@ -142,7 +145,7 @@ d3.json(url4).then(function(data) {
 });
 
 
-
+//Fetch JSON data
 fetch('/api/v1.0/covtable_timeline')
   .then(response => response.json())
   .then(data => {

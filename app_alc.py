@@ -20,7 +20,7 @@ port="5432"
 # Database Setup
 #################################################
 #database_url = 'postgresql://<username>:<password>@<host>:<port>/<database>'
-database_url1 = 'postgresql://postgres:Yell4me1$@localhost:5432/COVID19'
+database_url1 = 'postgresql://postgres:postgres@localhost:5432/COVID19'
 engine = create_engine(database_url1)
 
 # reflect an existing database into a new model
@@ -36,9 +36,9 @@ Covtable = Base.classes.covtable#
 #################################################
 app = Flask(__name__)
 
+#Flask Routes
 @app.route("/")
 def welcome():
-    """List all available api routes."""
     return render_template('index.html')
 
 @app.route("/api/v1.0/covtable")
@@ -46,8 +46,8 @@ def table():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    """Return a list of passenger data including the name, age, and sex of each passenger"""
-    # Query all passengers
+    """Return a list of covid data"""
+    # Query the hospitalization data
     results = session.query(Covtable.state,
         Covtable.county,
         Covtable.fips_code,
@@ -73,7 +73,7 @@ def table():
 
     session.close()
     
-    # Create a dictionary from the row data and append to a list of all_passengers
+    # Create a dictionary from the row data and append to a list
     all_covtable = []
     for state, county, fips_code, county_population, health_sa_name, health_sa_number, health_sa_population,  report_date, week_end_date ,mmwr_report_week ,mmwr_report_year ,total_adm_all_covid_confirmed_past_7days ,total_adm_all_covid_confirmed_past_7days_per_100k ,total_adm_all_covid_confirmed_past_7days_per_100k_level ,admissions_covid_confirmed_week_over_week_percent_change ,admissions_covid_confirmed_week_over_week_percent_change_level ,avg_percent_inpatient_beds_used_confirmed_covid ,avg_percent_inpatient_beds_used_confirmed_covid_level ,abs_chg_avg_percent_inpatient_beds_occupied_covid_confirmed ,avg_percent_staff_icu_beds_covid ,avg_percent_staff_icu_beds_covid_level ,abs_chg_avg_percent_staff_icu_beds_covid in results :      
         covtable_entry = {
@@ -110,8 +110,8 @@ def statetable():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    """Return a list of passenger data including the name, age, and sex of each passenger"""
-    # Query all passengers
+    """Return a list of hospital admission data per state"""
+    # Query admission data per state
     sel = [Covtable.state, 
         func.sum(Covtable.total_adm_all_covid_confirmed_past_7days), 
         func.avg(Covtable.total_adm_all_covid_confirmed_past_7days_per_100k)] 
@@ -122,10 +122,10 @@ def statetable():
     results
     session.close()
     
-    # Create a dictionary from the row data and append to a list of all_passengers
+    # Create a dictionary from the row data and append to a list of covid data by state
     all_covtablebystate = []
     for state, total_adm_all_covid_confirmed_past_7days, total_adm_all_covid_confirmed_past_7days_per_100k in results :      
-        # print(type(total_adm_all_covid_confirmed_past_7days))
+
         covtablebystate_entry = {
             "state": state,
             "total_adm_all_covid_confirmed_past_7days": int(total_adm_all_covid_confirmed_past_7days),
@@ -142,8 +142,8 @@ def bar_table():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    """Return a list of passenger data including the name, age, and sex of each passenger"""
-    # Query all passengers
+    """Return a list of Covid bed occupancy percentage data"""
+    # Query avg Inpatient & ICU percentages and state fields per state
     sel = [Covtable.state, 
         func.avg(Covtable.avg_percent_inpatient_beds_used_confirmed_covid), 
         func.avg(Covtable.avg_percent_staff_icu_beds_covid)] 
@@ -154,10 +154,9 @@ def bar_table():
     results
     session.close()
     
-    # Create a dictionary from the row data and append to a list of all_passengers
+    # Create a dictionary from the row data and append to a list of bed occupancy data by state
     all_covtable_bargraph = []
     for state, avg_percent_inpatient_beds_used_confirmed_covid, avg_percent_staff_icu_beds_covid in results :      
-        # print(type(total_adm_all_covid_confirmed_past_7days))
         covtable_bargraph_entry2 = {
             "state": state,
             "avg_percent_inpatient_beds_used_confirmed_covid": float(avg_percent_inpatient_beds_used_confirmed_covid),
@@ -172,7 +171,7 @@ def timeline_table():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    """Return a list of passenger data including the name, age, and sex of each passenger"""
+    """Return a list of hospital admission data per date"""
     # Query and group data by report_date while summing the total_adm_all_covid_confirmed_past_7days
     results = session.query(
         Covtable.report_date,
