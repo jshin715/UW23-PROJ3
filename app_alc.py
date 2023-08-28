@@ -20,7 +20,7 @@ port="5432"
 # Database Setup
 #################################################
 #database_url = 'postgresql://<username>:<password>@<host>:<port>/<database>'
-database_url1 = 'postgresql://postgres:postgres@localhost:5432/COVID19'
+database_url1 = 'postgresql://postgres:Yell4me1$@localhost:5432/COVID19'
 engine = create_engine(database_url1)
 
 # reflect an existing database into a new model
@@ -166,6 +166,33 @@ def bar_table():
         all_covtable_bargraph.append(covtable_bargraph_entry2)
 
     return jsonify(all_covtable_bargraph)
+
+@app.route("/api/v1.0/covtable_timeline")
+def timeline_table():
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    """Return a list of passenger data including the name, age, and sex of each passenger"""
+    # Query and group data by report_date while summing the total_adm_all_covid_confirmed_past_7days
+    results = session.query(
+        Covtable.report_date,
+        func.sum(Covtable.total_adm_all_covid_confirmed_past_7days)
+    ).group_by(Covtable.report_date).order_by(Covtable.report_date).all()
+
+    session.close()
+    
+    # Create a list of dictionaries for the results
+    all_covtable_timeline = []
+    for report_date, total_adm_all_covid_confirmed_past_7days in results:
+        covtable_timeline_entry = {
+            "report_date": report_date,
+            "total_adm_all_covid_confirmed_past_7days": total_adm_all_covid_confirmed_past_7days,
+        }
+        all_covtable_timeline.append(covtable_timeline_entry)
+
+    return jsonify(all_covtable_timeline)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

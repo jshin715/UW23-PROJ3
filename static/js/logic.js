@@ -35,7 +35,9 @@ d3.json(url2).then(function(data) {
   
     let layout = {
       height: 600,
-      width: 800
+      width: 800,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)'
     };
   Plotly.newPlot("pie", data1, layout);
 
@@ -90,13 +92,17 @@ d3.json(url3).then(function(data) {
   let layout = {
     title: 'Average Bed Usage Data by State',
     xaxis: {
-      title: 'States'
+      title: 'States',
+      tickangle: -45,
+      automargin: true
     },
     yaxis: {
-      title: 'Value'
+      title: 'Average Bed Usage'
     },
     height: 600,
-    width: 1200
+    width: 1200,
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
   };
 
   Plotly.newPlot("bar", data2, layout);
@@ -128,3 +134,44 @@ d3.json(url3).then(function(data) {
   });
 });
 
+const url4 = "api/v1.0/covtable_timeline";
+
+// Fetch the JSON data and console log it
+d3.json(url4).then(function(data) {
+  console.log(data);
+});
+
+
+
+fetch('/api/v1.0/covtable_timeline')
+  .then(response => response.json())
+  .then(data => {
+    var container = document.getElementById('visualization');
+    var items = new vis.DataSet();
+    
+    data.forEach(item => {
+      items.add({
+        id: item.report_date,
+        content: 'Total:' + item.total_adm_all_covid_confirmed_past_7days,
+        start: new Date(item.report_date),
+        type: 'point',
+        className: 'timeline-icon'
+      });
+    });
+
+    var options = {
+      start: new Date('May 11, 2023 00:00:00'), 
+      end: new Date('Aug 14, 2023 00:00:00') 
+    };
+
+    var timeline = new vis.Timeline(container, items, options);
+
+    timeline.on('click', function (properties) {
+      var clickedItem = items.get(properties.item);
+      if (clickedItem && properties.what === 'item' && properties.event.target.classList.contains('timeline-icon')) {
+        var clickedDate = new Date(clickedItem.start);
+        alert('Report Date: ' + clickedDate.toDateString());
+      }
+    });
+  })
+  .catch(error => console.error('Error fetching data:', error));

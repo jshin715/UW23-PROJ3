@@ -3,30 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
+    <title>COVID-19 Stats</title>
     <!-- D3 library -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- Plotly library -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="https://visjs.github.io/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>
+    <script type="text/javascript" src="timeline.js"></script>
+    <!-- External CSS file for styling -->
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
-<body>
-    <h2>Covid Stats</h2>
-    <p>You have the option to select between average per 100k and total hospital admissions</p>
-    <select id="selDataset">
-        <option value="total_adm_all_covid_confirmed_past_7days">Total Hospital Admissions Confirmed </option>
-        <option value="total_adm_all_covid_confirmed_past_7days_per_100k">Total Hospital Admissions Confirmed Per 100k</option>
-    </select>
-    <div id="pie"></div>
+<body style="background-color: lightblue;" >
+    <header>
+        <h1>COVID-19 Statistics Dashboard</h1>
+    </header>
+    
+    <main>
+        <section id="intro">
+            <h2>Welcome to the Dashboard</h2>
+            <p>Welcome to COVID-19 Hospitalization Metrics dashboard! We have data on various hospitalization from May 2023
+                from August 2023. The current re infection of COVID19 is concerning. We hope this visualization helps you understand its severity.</p>
+            <p>Select the desired data category:</p>
+            <select id="selDataset">
+                <option value="total_adm_all_covid_confirmed_past_7days">Total Hospital Admissions Confirmed</option>
+                <option value="total_adm_all_covid_confirmed_past_7days_per_100k">Total Hospital Admissions Confirmed Per 100k</option>
+            </select>
+            <div id="pie"></div>
+        </section>
+        
+        <section id="inpatient-icu">
+            <h2>Inpatient vs. ICU Beds</h2>
+            <p>Select between inpatient and ICU beds:</p>
+            <select id="selDataset_2">
+                <option value="avg_percent_inpatient_beds_used_confirmed_covid">Inpatient Beds</option>
+                <option value="avg_percent_staff_icu_beds_covid">ICU Beds</option>
+            </select>
+            <div id="bar"></div>
+        </section>
+        
+        <section id="timeline">
+            <h2>Timeline of Total Admissions</h2>
+            <div id="visualization"></div>
+        </section>
+    </main>
 
-    <p>You have the option to select between inpatient and ice beds</p>
-    <select id="selDataset_2">
-        <option value="avg_percent_inpatient_beds_used_confirmed_covid">Inpatient </option>
-        <option value="avg_percent_staff_icu_beds_covid">Icu</option>
-    </select>
-    <div id="bar"></div>
+    <footer>
+        <p>&copy; 2023 COVID Stats Dashboard. All rights reserved.</p>
+    </footer>
 
     <script src="static/js/logic.js"></script>
-    <script>
-    </script>
 </body>
 </html>

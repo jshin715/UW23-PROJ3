@@ -1,0 +1,41 @@
+/* Reset default margin and padding */
+body, h1, h2, p, select {
+    margin: 0;
+    padding: 0;
+}
+
+/* Add some space around sections */
+main section {
+    margin: 20px 0;
+}
+
+/* Style header */
+header {
+    background-color: #343a40;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Style main content */
+main {
+    padding: 20px;
+}
+
+/* Style footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+}
+
+/* Style select dropdowns */
+select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#pie, #bar {
+    background-color: transparent;
+}
