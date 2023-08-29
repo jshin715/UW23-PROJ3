@@ -11,7 +11,7 @@ main section {
 
 /* Style header */
 header {
-    background-color: #343a40;
+    background-color: #022345;
     color: white;
     padding: 10px;
     text-align: center;
@@ -34,8 +34,4 @@ select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-#pie, #bar {
-    background-color: transparent;
 }

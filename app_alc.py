@@ -20,7 +20,7 @@ port="5432"
 # Database Setup
 #################################################
 #database_url = 'postgresql://<username>:<password>@<host>:<port>/<database>'
-database_url1 = 'postgresql://postgres:postgres@localhost:5432/COVID19'
+database_url1 = 'postgresql://postgres:Yell4me1$@localhost:5432/COVID19'
 engine = create_engine(database_url1)
 
 # reflect an existing database into a new model

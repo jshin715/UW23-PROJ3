@@ -136,7 +136,7 @@ d3.json(url3).then(function(data) {
   });
 });
 
-//Create timeline of total Covid Hospitalization Admissions with Zoom and Textbox interaction
+//Create timeline of total Covid Hospitalization Admissions with Zoom
 const url4 = "api/v1.0/covtable_timeline";
 
 // Fetch the JSON data and console log it
@@ -155,26 +155,34 @@ fetch('/api/v1.0/covtable_timeline')
     data.forEach(item => {
       items.add({
         id: item.report_date,
-        content: 'Total:' + item.total_adm_all_covid_confirmed_past_7days,
-        start: new Date(item.report_date),
-        type: 'point',
-        className: 'timeline-icon'
+        x: new Date(item.report_date),
+        y: item.total_adm_all_covid_confirmed_past_7days,
       });
     });
 
     var options = {
       start: new Date('May 11, 2023 00:00:00'), 
-      end: new Date('Aug 14, 2023 00:00:00') 
+      end: new Date('Aug 14, 2023 00:00:00'),
+      style: 'points',
+      drawPoints: {
+        style: 'circle',
+      },
+      dataAxis: {
+        left: {
+          title: {
+            text: 'Total',
+          },
+        },
+      },
+      showMinorLabels: true,
+      showMajorLabels: true,
     };
 
-    var timeline = new vis.Timeline(container, items, options);
-
-    timeline.on('click', function (properties) {
-      var clickedItem = items.get(properties.item);
-      if (clickedItem && properties.what === 'item' && properties.event.target.classList.contains('timeline-icon')) {
-        var clickedDate = new Date(clickedItem.start);
-        alert('Report Date: ' + clickedDate.toDateString());
-      }
-    });
+    var graph = new vis.Graph2d(container, items, options);
   })
   .catch(error => console.error('Error fetching data:', error));
+
+
+
+
+

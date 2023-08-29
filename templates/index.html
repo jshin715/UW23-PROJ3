@@ -10,11 +10,10 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!-- Vis library -->
     <script type="text/javascript" src="https://visjs.github.io/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>
-    <script type="text/javascript" src="timeline.js"></script>
     <!-- External CSS file for styling -->
     <link rel="stylesheet" href="static/css/style.css">
 </head>
-<body style="background-color: lightblue;" >
+<body style="background-color: rgb(216, 220, 249);" >
     <header>
         <h1>COVID-19 Statistics Dashboard</h1>
     </header>
@@ -23,8 +22,9 @@
         <section id="intro">
             <h2>Welcome to the Dashboard</h2>
             <p>Welcome to COVID-19 Hospitalization Metrics dashboard! We have data on hospitalization admission data from May 2023
-                from August 2023. The current resurgence of COVID19 is concerning. We hope this visualization helps you understand its severity.</p>
-                <h2>Total Hospital Admissions</h2>
+                to August 2023. The current resurgence of COVID19 is concerning. We hope this visualization helps you understand its severity.</p>
+                <br></br>
+                <h2><center>Total Hospital Admissions</center></h2>
                 <p>Select the desired data category:</p>
             <select id="selDataset">
                 <option value="total_adm_all_covid_confirmed_past_7days">Total Hospital Admissions Confirmed</option>
@@ -34,7 +34,7 @@
         </section>
         
         <section id="inpatient-icu">
-            <h2>Inpatient vs. ICU Bed Occupancy Percentages</h2>
+            <h2><center>Inpatient vs. ICU Bed Occupancy Percentages</center></h2>
             <p>Select between Inpatient and ICU:</p>
             <select id="selDataset_2">
                 <option value="avg_percent_inpatient_beds_used_confirmed_covid">Inpatient Beds</option>
@@ -44,7 +44,8 @@
         </section>
         
         <section id="timeline">
-            <h2>Timeline of Total Covid Hospitalization Admissions</h2>
+            <h2><center>Timeline of Total Covid Hospitalization Admissions</center></h2>
+            <br></br>
             <div id="visualization"></div>
         </section>
     </main>
